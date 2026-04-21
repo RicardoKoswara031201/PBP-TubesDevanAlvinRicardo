@@ -62,7 +62,7 @@ export const LoginPage = () => {
           <button type="submit" className="login-button theme-btn theme-btn-success">Login</button>
           <div className="login-actions theme-flex-row">
             <Link to="/register" className="login-register-link">
-              <button type="button" className="login-register-btn theme-btn theme-btn-secondary">Register</button>
+              <button type="button" className="login-register-btn theme-btn theme-btn-secondary">Customer</button>
             </Link>
             <button 
               type="button" 
