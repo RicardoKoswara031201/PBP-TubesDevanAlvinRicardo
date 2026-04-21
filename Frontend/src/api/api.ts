@@ -1,13 +1,15 @@
 export const API_BASE_URL = 'http://localhost:3000/api';
 
-async function request<T>(
+async function request<T = any>(
   path: string,
   options: RequestInit = {},
   useAuth: boolean = true
 ): Promise<T> {
-  const headers: Record<string, string> = { ...(options.headers || {}) as Record<string, string> };
+  const headers: Record<string, string> = {
+    ...(options.headers || {}) as Record<string, string>
+  };
 
-  // Tambahkan token jika diperlukan
+  // Tambahkan token jika perlu
   if (useAuth) {
     const token = localStorage.getItem('token');
     if (token) {
@@ -15,31 +17,39 @@ async function request<T>(
     }
   }
 
-  // Tambahkan Content-Type default jika body bukan FormData
+  // Content-Type default
   if (!(options.body instanceof FormData) && !headers['Content-Type']) {
     headers['Content-Type'] = 'application/json';
   }
 
-  const res = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers,
-  });
+  try {
+    const res = await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers,
+    });
 
-  const payload = await res.json();
+    // Handle response kosong
+    const text = await res.text();
+    const payload = text ? JSON.parse(text) : {};
 
-  if (!res.ok) {
-    const msg = (payload && (payload as any).message) || res.statusText;
-    throw new Error(msg);
+    if (!res.ok) {
+      const msg = payload?.message || res.statusText;
+      throw new Error(msg);
+    }
+
+    return payload as T;
+  } catch (error: any) {
+    console.error("API Error:", error.message);
+    throw error;
   }
-
-  return payload as T;
 }
 
+// EXPORT API METHODS
 export const api = {
-  get: <T>(path: string, useAuth = true) =>
+  get: <T = any>(path: string, useAuth = true) =>
     request<T>(path, { method: 'GET' }, useAuth),
 
-  post: <T>(path: string, body: any, useAuth = true) =>
+  post: <T = any>(path: string, body: any, useAuth = true) =>
     request<T>(
       path,
       {
@@ -49,7 +59,7 @@ export const api = {
       useAuth
     ),
 
-  put: <T>(path: string, body: any, useAuth = true) =>
+  put: <T = any>(path: string, body: any, useAuth = true) =>
     request<T>(
       path,
       {
@@ -59,10 +69,10 @@ export const api = {
       useAuth
     ),
 
-  delete: <T>(path: string, useAuth = true) =>
+  delete: <T = any>(path: string, useAuth = true) =>
     request<T>(path, { method: 'DELETE' }, useAuth),
 
-  postFormData: <T>(path: string, formData: FormData, useAuth = true) =>
+  postFormData: <T = any>(path: string, formData: FormData, useAuth = true) =>
     request<T>(
       path,
       {
@@ -72,7 +82,7 @@ export const api = {
       useAuth
     ),
 
-  putFormData: <T>(path: string, formData: FormData, useAuth = true) =>
+  putFormData: <T = any>(path: string, formData: FormData, useAuth = true) =>
     request<T>(
       path,
       {
