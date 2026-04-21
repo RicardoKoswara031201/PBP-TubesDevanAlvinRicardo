@@ -13,14 +13,14 @@
 // import { PrivateRoute } from "./PrivateRoute";
 
 // const router = createBrowserRouter([
-//   // 🔐 LOGIN
+//   // LOGIN
 //   { path: "/", element: <LoginPage /> },
 //   { path: "/login", element: <LoginPage /> },
 
-//   // 👤 CUSTOMER HOME (PUBLIC)
+//   // CUSTOMER HOME (PUBLIC)
 //   { path: "/customer", element: <CustomerHomePage /> },
 
-//   // 🧑‍💼 ADMIN HOME
+//   // ADMIN HOME
 //   {
 //     path: "/admin",
 //     element: (
@@ -30,7 +30,7 @@
 //     )
 //   },
 
-//   // 🔒 ADMIN FEATURES
+//   // ADMIN FEATURES
 //   {
 //     path: "/products",
 //     element: (
