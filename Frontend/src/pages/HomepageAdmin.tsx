@@ -21,12 +21,6 @@ export default function AdminHomePage() {
           <p>Tambah, edit, dan hapus produk</p>
         </Link>
 
-        <Link to="/categories" className="admin-card">
-          <div className="admin-icon">🏷️</div>
-          <h3>Manage Categories</h3>
-          <p>Kelola kategori produk</p>
-        </Link>
-
         <Link to="/orders" className="admin-card">
           <div className="admin-icon">🧾</div>
           <h3>Manage Orders</h3>

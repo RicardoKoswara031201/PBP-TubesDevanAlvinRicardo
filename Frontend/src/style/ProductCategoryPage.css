@@ -1,0 +1,115 @@
+.pc-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* SIDEBAR */
+.pc-sidebar {
+  width: 250px;
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  overflow-y: auto; /* ✅ biar bisa scroll */
+}
+
+.pc-sidebar h3 {
+  margin-bottom: 15px;
+}
+
+/* BUTTON KATEGORI */
+.pc-sidebar button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  background: #34495e;
+  color: white;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.pc-sidebar button:hover {
+  background: #1abc9c;
+  transform: translateX(3px); /* ✨ efek geser */
+}
+
+.pc-sidebar button.active {
+  background: #1abc9c;
+  font-weight: bold;
+}
+
+/* CONTENT */
+.pc-content {
+  flex: 1;
+  padding: 20px;
+  background: #f4f6f9;
+  overflow-y: auto;
+}
+
+/* HEADER */
+.pc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pc-header button {
+  padding: 10px 15px;
+  background: #1abc9c;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.pc-header button:hover {
+  background: #16a085;
+}
+
+/* GRID */
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.pc-card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* ✨ shadow */
+  transition: 0.2s;
+}
+
+.pc-card:hover {
+  transform: translateY(-5px); /* ✨ hover naik */
+}
+
+/* ACTION BUTTON */
+.pc-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pc-actions button {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pc-actions button:first-child {
+  background: #3498db;
+  color: white;
+}
+
+.pc-actions button:last-child {
+  background: #e74c3c;
+  color: white;
+}
