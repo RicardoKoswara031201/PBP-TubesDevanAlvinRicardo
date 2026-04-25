@@ -1,0 +1,13 @@
+mkdir restaurant-app
+cd restaurant-app
+
+mkdir backend
+cd backend
+npm init -y
+
+npm install express sequelize sequelize-typescript pg pg-hstore uuid dotenv
+npm install -D typescript ts-node-dev @types/node @types/express
+
+npx tsc --init
+
+npm install cors
