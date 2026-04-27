@@ -28,7 +28,7 @@ export default function AddProductPage() {
     console.log("DATA PRODUK:", form);
 
     alert("Produk berhasil ditambahkan!");
-    navigate("/manage-product");
+    navigate("products");
   };
 
   return (

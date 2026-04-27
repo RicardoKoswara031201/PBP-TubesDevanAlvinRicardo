@@ -81,10 +81,37 @@
 // }
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CustomerPage from "../pages/customerPages";
+
+// PAGES
+import AdminHomePage from "../pages/HomepageAdmin";
+import ProductCategoryPage from "../pages/ProductCategoryPage";
+import AddProductPage from "../pages/AddProductPage";
+import EditProductPage from "../pages/EditProductPage";
 
 const router = createBrowserRouter([
-  { path: "/", element: <CustomerPage /> },
+  // HOME ADMIN
+  {
+    path: "/",
+    element: <AdminHomePage />,
+  },
+
+  // PRODUK LIST
+  {
+    path: "/products",
+    element: <ProductCategoryPage />,
+  },
+
+  // TAMBAH PRODUK
+  {
+    path: "/add-product",
+    element: <AddProductPage />,
+  },
+
+  // EDIT PRODUK
+  {
+    path: "/edit-product/:id",
+    element: <EditProductPage />,
+  },
 ]);
 
 export default function Router() {

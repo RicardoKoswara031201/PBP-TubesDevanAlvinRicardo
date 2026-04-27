@@ -23,8 +23,8 @@ export default function AdminHomePage() {
 
         <Link to="/orders" className="admin-card">
           <div className="admin-icon">🧾</div>
-          <h3>Manage Orders</h3>
-          <p>Lihat dan update pesanan</p>
+          <h3>Orders</h3>
+          <p>Lihat pesanan</p>
         </Link>
 
         <Link to="/users" className="admin-card">
