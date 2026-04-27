@@ -81,10 +81,10 @@
 // }
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AddProductPage from "../pages/AddProductPage";
+import CustomerPage from "../pages/customerPages";
 
 const router = createBrowserRouter([
-  { path: "/", element: <AddProductPage /> },
+  { path: "/", element: <CustomerPage /> },
 ]);
 
 export default function Router() {
