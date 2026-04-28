@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import '../style/AdminHomePage.css';
+import "../style/AdminHomePage.css";
 
 export default function AdminHomePage() {
   const navigate = useNavigate();

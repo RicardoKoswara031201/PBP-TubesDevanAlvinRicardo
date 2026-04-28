@@ -1,26 +1,36 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"; 
-// PAGES 
-import AdminHomePage from "../pages/HomepageAdmin";
-import ProductCategoryPage from "../pages/ProductCategoryPage";
-import AddProductPage from "../pages/AddProductPage";
-import EditProductPage from "../pages/EditProductPage";
-import OrderPage from "../pages/OrderPage";
-import UserPage from "../pages/UserPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const router = createBrowserRouter([ 
-// HOME ADMIN 
-{ path: "/", element: <AdminHomePage />, }, 
-// PRODUK LIST 
-{ path: "/products", element: <ProductCategoryPage />, }, 
-// TAMBAH PRODUK 
-{ path: "/add-product", element: <AddProductPage />, }, 
-// EDIT PRODUK 
-{ path: "/edit-product/:id", element: <EditProductPage />, }, 
+// PAGES
+// import AdminHomePage from "../pages/HomepageAdmin";
+// import ProductCategoryPage from "../pages/ProductCategoryPage";
+// import AddProductPage from "../pages/AddProductPage";
+// import EditProductPage from "../pages/EditProductPage";
+// import OrderPage from "../pages/OrderPage";
+// import UserPage from "../pages/UserPage";
+import KasirHomePage from "../pages/HomepageKasir";
+import OrderPage from "../pages/OrderPageKasir";
+import IncomePage from "../pages/PenghasilanPage";
 
-{ path: "/orders", element: <OrderPage/> },
+const router = createBrowserRouter([
+//   // ADMIN
+//   { path: "/", element: <AdminHomePage /> },
 
-{ path: "/users", element: <UserPage/> }, 
+//   // PRODUCT
+//   { path: "/products", element: <ProductCategoryPage /> },
+//   { path: "/add-product", element: <AddProductPage /> },
+//   { path: "/edit-product/:id", element: <EditProductPage /> },
+
+//   // ORDER & USER
+//   { path: "/orders", element: <OrderPage /> },
+//   { path: "/users", element: <UserPage /> },
+
+  // KASIR
+  { path: "/", element: <KasirHomePage /> },
+  { path: "/orders", element: <OrderPage /> },
+  { path: "/income", element: <IncomePage /> },
 
 ]);
 
-export default function Router() { return <RouterProvider router={router} />; }
+export default function Router() {
+  return <RouterProvider router={router} />;
+}
