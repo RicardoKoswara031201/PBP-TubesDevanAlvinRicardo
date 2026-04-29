@@ -1,4 +1,5 @@
 import express from "express";
+import "reflect-metadata";
 import { getCategories } from "../controllers/category.controller";
 import { getProducts } from "../controllers/product.controller";
 import { createOrder } from "../controllers/order.controller";

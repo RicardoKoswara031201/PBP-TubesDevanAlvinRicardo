@@ -10,15 +10,33 @@ export default function CustomerPage() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  useEffect(() => {
-    fetch("http://localhost:3000/api/products")
-      .then(res => res.json())
-      .then(setProducts);
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/api/products")
+  //     .then(res => res.json())
+  //     .then(setProducts);
 
-    fetch("http://localhost:3000/api/categories")
-      .then(res => res.json())
-      .then(setCategories);
-  }, []);
+  //   fetch("http://localhost:3000/api/categories")
+  //     .then(res => res.json())
+  //     .then(setCategories);
+  // }, []);
+
+  useEffect(() => {
+  fetch("http://localhost:3000/api/products")
+  .then(res => res.json())
+  .then(data => {
+    console.log("PRODUCTS API:", data);
+
+    setProducts(Array.isArray(data) ? data : data.products || data.data || []);
+  });
+
+  fetch("http://localhost:3000/api/categories")
+    .then(res => res.json())
+    .then(data => {
+      console.log("CATEGORIES API:", data);
+
+      setCategories(Array.isArray(data) ? data : data.categories || []);
+    });
+}, []);
 
   const filteredProducts = selectedCategory
     ? products.filter(p => p.categoryId === selectedCategory)

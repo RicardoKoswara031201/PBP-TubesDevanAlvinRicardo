@@ -1,15 +1,22 @@
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from "sequelize-typescript";
-import  Order  from "./order";
-import  Product  from "./product";
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  ForeignKey,
+  BelongsTo
+} from "sequelize-typescript";
+import Order from "./order";
+import Product from "./product";
 
 @Table
 export default class OrderItem extends Model {
   @ForeignKey(() => Order)
-  @Column
+  @Column(DataType.INTEGER)
   orderId!: number;
 
   @ForeignKey(() => Product)
-  @Column
+  @Column(DataType.INTEGER)
   productId!: number;
 
   @Column(DataType.INTEGER)

@@ -1,5 +1,12 @@
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from "sequelize-typescript";
-import  Category  from "./category";
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  ForeignKey,
+  BelongsTo
+} from "sequelize-typescript";
+import Category from "./category";
 
 @Table
 export default class Product extends Model {
@@ -10,7 +17,7 @@ export default class Product extends Model {
   price!: number;
 
   @ForeignKey(() => Category)
-  @Column
+  @Column(DataType.INTEGER)
   categoryId!: number;
 
   @BelongsTo(() => Category)
