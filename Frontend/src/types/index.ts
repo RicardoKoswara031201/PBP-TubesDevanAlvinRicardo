@@ -9,6 +9,7 @@ export interface Product {
   price: number;
   categoryId: number;
   category?: Category;
+  imageUrl?: string;
 }
 
 export interface CartItem {
