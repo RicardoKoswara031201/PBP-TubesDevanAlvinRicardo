@@ -43,20 +43,32 @@ export default function Cart({ cart, setCart }: Props) {
   };
 
   return (
-    <div>
-      <h2>Cart</h2>
+  <div style={{
+    background: "white",
+    padding: 20,
+    borderRadius: 10,
+    minWidth: 250
+  }}>
+    <h2>Cart</h2>
 
-      {cart.map(item => (
-        <div key={item.productId}>
-          <p>{item.name} (x{item.qty})</p>
-          <button onClick={() => addQty(item.productId)}>+</button>
-          <button onClick={() => removeQty(item.productId)}>-</button>
-        </div>
-      ))}
+    {cart.map(item => (
+      <div key={item.productId} style={{ marginBottom: 10 }}>
+        <b>{item.name}</b>
+        <p>Qty: {item.qty}</p>
 
-      <h3>Total: Rp {total}</h3>
+        <button onClick={() => addQty(item.productId)}>+</button>
+        <button onClick={() => removeQty(item.productId)}>-</button>
+      </div>
+    ))}
 
-      <button onClick={checkout}>Checkout</button>
-    </div>
-  );
+    <h3>Total: Rp {total}</h3>
+
+    <button
+      style={{ background: "green", color: "white", width: "100%" }}
+      onClick={checkout}
+    >
+      Checkout
+    </button>
+  </div>
+);
 }
