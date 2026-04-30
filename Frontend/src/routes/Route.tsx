@@ -22,6 +22,8 @@ import IncomePage from "../pages/PenghasilanPage";
 const router = createBrowserRouter([
   // LOGIN
   { path: "/", element: <LoginPage /> },
+  // LOGOUT
+  { path: "/login", element: <LoginPage /> },
 
   // CUSTOMER
   { path: "/menu", element: <CustomerPage /> },
