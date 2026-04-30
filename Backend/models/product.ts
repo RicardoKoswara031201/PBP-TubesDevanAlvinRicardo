@@ -22,4 +22,10 @@ export default class Product extends Model {
 
   @BelongsTo(() => Category)
   category!: Category;
+
+  @Column({
+    field: "image_url",
+    type: DataType.STRING
+  })
+  imageUrl!: string;
 }
