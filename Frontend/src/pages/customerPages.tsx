@@ -65,8 +65,8 @@ export default function CustomerPage() {
   };
 
   return (
-    <div>
-      <h1>Customer Menu</h1>
+   <div style={{ padding: 20 }}>
+      <h1 style={{ color: "#b64a4a" }}>My Menu</h1>
 
       <CategoryFilter
         categories={categories}
@@ -74,7 +74,11 @@ export default function CustomerPage() {
         setSelected={setSelectedCategory}
       />
 
-      <div style={{ display: "flex", gap: 20 }}>
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "3fr 1fr",
+        gap: 20
+      }}>
         <Menu products={filteredProducts} addToCart={addToCart} />
         <Cart cart={cart} setCart={setCart} />
       </div>
