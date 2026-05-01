@@ -36,6 +36,8 @@ export default function LoginPage() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.user.role);
 
+      alert("Login berhasil!");
+
       if (data.user.role === "admin") {
         navigate("/admin");
       } else if (data.user.role === "kasir") {
@@ -43,8 +45,6 @@ export default function LoginPage() {
       } else {
         navigate("/menu");
       }
-
-      alert("Login berhasil!");
     } catch (error: any) {
       console.error(error);
       alert("Login gagal");
@@ -55,7 +55,7 @@ export default function LoginPage() {
     <div className="login-page theme-page">
       <div className="login-container theme-form">
         <h2 className="login-title theme-text-center">
-          Restaurant Login
+          Burger Queen Login
         </h2>
 
         <form onSubmit={handleSubmit}>
@@ -81,6 +81,10 @@ export default function LoginPage() {
               value={formData.password}
               onChange={handleChange}
             />
+          </div>
+
+          <div className="forgot-password-link">
+            <Link to="/forgot-password">Forgot Password?</Link>
           </div>
 
           <button

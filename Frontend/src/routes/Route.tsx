@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // LOGIN
 import LoginPage from "../pages/Loginpage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 
 // CUSTOMER
 import CustomerPage from "../pages/customerPages";
@@ -22,6 +23,8 @@ import IncomePage from "../pages/PenghasilanPage";
 const router = createBrowserRouter([
   // LOGIN
   { path: "/", element: <LoginPage /> },
+  // LUPA PASSWORD
+  { path: "/forgot-password", element: <ForgotPasswordPage />},
   // LOGOUT
   { path: "/login", element: <LoginPage /> },
 

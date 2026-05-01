@@ -55,6 +55,22 @@
     padding: 10px;
 }
 
+.forgot-password-link {
+    text-align: right;
+    margin-bottom: var(--spacing-md);
+}
+
+.forgot-password-link a {
+    font-size: 14px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-password-link a:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 480px) {
     .login-container {
         width: 90%;
