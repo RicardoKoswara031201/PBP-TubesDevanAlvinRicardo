@@ -10,16 +10,6 @@ export default function CustomerPage() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  // useEffect(() => {
-  //   fetch("http://localhost:3000/api/products")
-  //     .then(res => res.json())
-  //     .then(setProducts);
-
-  //   fetch("http://localhost:3000/api/categories")
-  //     .then(res => res.json())
-  //     .then(setCategories);
-  // }, []);
-
   useEffect(() => {
   fetch("http://localhost:3000/api/products")
   .then(res => res.json())

@@ -11,7 +11,10 @@ export default function Menu({ products, addToCart }: Props) {
     <div className="menu-grid">
       {products.map(p => (
         <div key={p.id} className="card">
-          <img src={p.imageUrl} alt={p.name} />
+          <img
+            src={`http://localhost:3000${p.imageUrl}`}
+            alt={p.name}
+          />
 
           <h3>{p.name}</h3>
           <p>Rp {p.price}</p>

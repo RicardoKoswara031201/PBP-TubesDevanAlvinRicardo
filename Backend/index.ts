@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
+import path from "path";
 import { sequelize } from "./config/database";
 import mainRoutes from "./routes";
 import authRoutes from "./routes/authroute";
@@ -14,29 +15,34 @@ app.use(
   })
 );
 
-// Middleware
+// MIDDLEWARE
 app.use(express.json());
 
-// Routes
+// IMAGES
+app.use("/images", express.static(path.join(process.cwd(), "images")));
+
+// ROUTES
 app.use("/api/auth", authRoutes);
 app.use("/api", mainRoutes);
 
-// Database check
+// DATABASE CONNECTION CHECK
 sequelize
   .authenticate()
   .then(() => console.log("Database connected!"))
   .catch((error) => console.error("Database error:", error));
 
-// Error handler
-app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  console.error(err);
+// ERROR HANDLER
+app.use(
+  (err: Error, _req: Request, res: Response, _next: NextFunction) => {
+    console.error(err);
 
-  res.status(500).json({
-    message: err.message || "Internal Server Error",
-  });
-});
+    res.status(500).json({
+      message: err.message || "Internal Server Error",
+    });
+  }
+);
 
-// Start server
+// START SERVER
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

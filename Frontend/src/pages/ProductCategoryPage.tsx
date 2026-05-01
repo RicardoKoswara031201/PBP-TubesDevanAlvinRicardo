@@ -12,22 +12,34 @@ export default function ProductCategoryPage() {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
-  // FETCH CATEGORIES
+  //FETCH CATEGORIES
   const fetchCategories = async () => {
     try {
-      const data = await api.get<Category[]>("/categories");
-      setCategories(data);
+      const data = await api.get<any>("/categories");
+
+      const categoryData = Array.isArray(data)
+        ? data
+        : data.categories || data.data || [];
+
+      setCategories(categoryData);
     } catch (error) {
       console.error("Error fetch categories:", error);
     }
   };
 
-  // FETCH PRODUCTS
+  //FETCH PRODUCTS
   const fetchProducts = async () => {
     try {
-      const data = await api.get<Product[]>("/products");
-      setProducts(data);
-      setAllProducts(data);
+      const data = await api.get<any>("/products");
+
+      console.log("PRODUCTS API:", data);
+
+      const productData = Array.isArray(data)
+        ? data
+        : data.products || data.data || [];
+
+      setProducts(productData);
+      setAllProducts(productData);
     } catch (error) {
       console.error("Error fetch products:", error);
     }
@@ -38,32 +50,30 @@ export default function ProductCategoryPage() {
     fetchProducts();
   }, []);
 
-  // FILTER CATEGORY
+  //FILTER
   const handleCategoryClick = (id: number) => {
     setSelectedCategory(id);
 
-    const filteredProducts = allProducts.filter(
+    const filtered = allProducts.filter(
       (product) => product.categoryId === id
     );
 
-    setProducts(filteredProducts);
+    setProducts(filtered);
   };
 
-  // SHOW ALL PRODUCTS
   const showAllProducts = () => {
     setSelectedCategory(null);
     setProducts(allProducts);
   };
 
-  // DELETE PRODUCT
+  //DELETE
   const handleDelete = async (id: number) => {
-    const confirmDelete = confirm("Yakin hapus produk?");
+    const confirmDelete = window.confirm("Yakin hapus produk?");
     if (!confirmDelete) return;
 
     try {
       await api.delete(`/products/${id}`);
       await fetchProducts();
-
       alert("Produk berhasil dihapus");
     } catch (error) {
       console.error(error);
@@ -73,6 +83,7 @@ export default function ProductCategoryPage() {
 
   return (
     <div className="pc-container">
+
       {/* SIDEBAR */}
       <div className="pc-sidebar">
         <h3>Kategori</h3>
@@ -97,7 +108,7 @@ export default function ProductCategoryPage() {
 
       {/* CONTENT */}
       <div className="pc-content">
-        {/* HEADER */}
+
         <div className="pc-header">
           <h2>Produk</h2>
 
@@ -106,18 +117,23 @@ export default function ProductCategoryPage() {
           </button>
         </div>
 
-        {/* PRODUCT GRID */}
+        {/* GRID */}
         <div className="pc-grid">
           {products.map((product) => (
             <div key={product.id} className="pc-card">
+
+              <img
+                src={`http://localhost:3000${product.imageUrl}`}
+                alt={product.name}
+                className="pc-image"
+              />
+
               <h4>{product.name}</h4>
-              <p>Rp {product.price}</p>
+              <p>Rp {product.price.toLocaleString("id-ID")}</p>
 
               <div className="pc-actions">
                 <button
-                  onClick={() =>
-                    navigate(`/edit-product/${product.id}`)
-                  }
+                  onClick={() => navigate(`/edit-product/${product.id}`)}
                 >
                   Edit
                 </button>
@@ -126,9 +142,11 @@ export default function ProductCategoryPage() {
                   Delete
                 </button>
               </div>
+
             </div>
           ))}
         </div>
+
       </div>
     </div>
   );

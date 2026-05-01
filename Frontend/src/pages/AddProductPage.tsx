@@ -10,31 +10,50 @@ export default function AddProductPage() {
     name: "",
     price: "",
     categoryId: "",
+    image: null as File | null,
   });
 
+  // HANDLE INPUT (SAFE VERSION)
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
+    const target = e.target as HTMLInputElement;
+
+    if (target.name === "image" && target.files) {
+      setForm({
+        ...form,
+        image: target.files[0],
+      });
+      return;
+    }
+
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [target.name]: target.value,
     });
   };
 
+  // SUBMIT FORM
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      await api.post("/products", {
-        name: form.name,
-        price: Number(form.price),
-        categoryId: Number(form.categoryId),
-      });
+      const formData = new FormData();
+
+      formData.append("name", form.name);
+      formData.append("price", form.price);
+      formData.append("categoryId", form.categoryId);
+
+      if (form.image) {
+        formData.append("image", form.image);
+      }
+
+      await api.postFormData("/products", formData);
 
       alert("Produk berhasil ditambahkan!");
       navigate("/products");
     } catch (error) {
-      console.error(error);
+      console.error("ERROR ADD PRODUCT:", error);
       alert("Gagal tambah produk");
     }
   };
@@ -74,6 +93,14 @@ export default function AddProductPage() {
           <option value="3">Dessert</option>
           <option value="4">Snack</option>
         </select>
+
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={handleChange}
+          required
+        />
 
         <button type="submit">Simpan</button>
       </form>

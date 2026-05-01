@@ -1,75 +1,55 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// import { api } from "../api/api"; // ⬅️ nanti aktifkan backend
+import { api } from "../api/api";
+import "../style/AddProductPage.css";
 
 export default function EditProductPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [form, setForm] = useState({
-    name: "",
-    price: "",
-    categoryId: "",
-    image: null as File | null,
-  });
+  const [productName, setProductName] = useState("");
+  const [price, setPrice] = useState("");
 
-  // ================= BACKEND (SIAP DIPAKAI) =================
-  /*
+  // FETCH PRODUCT DETAIL
   useEffect(() => {
     const fetchProduct = async () => {
-      const data = await api.get(`/products/${id}`);
-      setForm({
-        name: data.name,
-        price: data.price,
-        categoryId: data.categoryId,
-        image: null
-      });
+      try {
+        const data = await api.get<any>(`/products`);
+
+        // cari product dari list (karena kamu belum punya GET /products/:id)
+        const product = data.find((p: any) => p.id === Number(id));
+
+        if (!product) {
+          alert("Produk tidak ditemukan");
+          return;
+        }
+
+        setProductName(product.name);
+        setPrice(String(product.price));
+      } catch (error) {
+        console.error(error);
+        alert("Gagal load produk");
+      }
     };
 
     fetchProduct();
   }, [id]);
-  */
 
-  // ================= DUMMY =================
-  useEffect(() => {
-    const dummyProducts = [
-      { id: 1, name: "Nasi Goreng", price: 20000, categoryId: 1 },
-      { id: 2, name: "Ayam Bakar", price: 25000, categoryId: 1 },
-      { id: 3, name: "Es Teh", price: 5000, categoryId: 2 },
-    ];
-
-    const product = dummyProducts.find(
-      (p) => p.id === Number(id)
-    );
-
-    if (product) {
-      setForm({
-        name: product.name,
-        price: String(product.price),
-        categoryId: String(product.categoryId),
-        image: null,
-      });
-    }
-  }, [id]);
-
-  // ================= HANDLE =================
-  const handleChange = (e: any) => {
-    const { name, value, files } = e.target;
-
-    if (name === "image") {
-      setForm({ ...form, image: files[0] });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
-  };
-
-  const handleSubmit = (e: any) => {
+  // UPDATE PRICE ONLY
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("UPDATED DATA:", form);
+    try {
+      await api.put(`/products/${id}`, {
+        price: Number(price),
+      });
 
-    alert("Produk berhasil diupdate!");
-    navigate("/");
+      alert("Harga berhasil diupdate!");
+      navigate("/products");
+    } catch (error) {
+      console.error(error);
+      alert("Gagal update harga");
+    }
   };
 
   return (
@@ -77,44 +57,23 @@ export default function EditProductPage() {
       <h2>Edit Produk</h2>
 
       <form onSubmit={handleSubmit} className="add-form">
+        {/* NAMA (READ ONLY) */}
         <input
           type="text"
-          name="name"
-          value={form.name}
-          placeholder="Nama Produk"
-          onChange={handleChange}
-          required
+          value={productName}
+          disabled
         />
 
+        {/* HARGA (EDITABLE) */}
         <input
           type="number"
-          name="price"
-          value={form.price}
-          placeholder="Harga"
-          onChange={handleChange}
+          placeholder="Harga Baru"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
           required
         />
 
-        <select
-          name="categoryId"
-          value={form.categoryId}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Pilih Kategori</option>
-          <option value="1">Makanan</option>
-          <option value="2">Minuman</option>
-          <option value="3">Dessert</option>
-        </select>
-
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-        />
-
-        <button type="submit">Update</button>
+        <button type="submit">Update Harga</button>
       </form>
     </div>
   );
