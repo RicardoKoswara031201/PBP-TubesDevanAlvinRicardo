@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api/api";
 import "../style/AddProductPage.css";
 
 export default function AddProductPage() {
@@ -9,26 +10,33 @@ export default function AddProductPage() {
     name: "",
     price: "",
     categoryId: "",
-    image: null as File | null,
   });
 
-  const handleChange = (e: any) => {
-    const { name, value, files } = e.target;
-
-    if (name === "image") {
-      setForm({ ...form, image: files[0] });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("DATA PRODUK:", form);
+    try {
+      await api.post("/products", {
+        name: form.name,
+        price: Number(form.price),
+        categoryId: Number(form.categoryId),
+      });
 
-    alert("Produk berhasil ditambahkan!");
-    navigate("products");
+      alert("Produk berhasil ditambahkan!");
+      navigate("/products");
+    } catch (error) {
+      console.error(error);
+      alert("Gagal tambah produk");
+    }
   };
 
   return (
@@ -40,6 +48,7 @@ export default function AddProductPage() {
           type="text"
           name="name"
           placeholder="Nama Produk"
+          value={form.name}
           onChange={handleChange}
           required
         />
@@ -48,23 +57,23 @@ export default function AddProductPage() {
           type="number"
           name="price"
           placeholder="Harga"
+          value={form.price}
           onChange={handleChange}
           required
         />
 
-        <select name="categoryId" onChange={handleChange} required>
+        <select
+          name="categoryId"
+          value={form.categoryId}
+          onChange={handleChange}
+          required
+        >
           <option value="">Pilih Kategori</option>
-          <option value="1">Makanan</option>
+          <option value="1">Burger</option>
           <option value="2">Minuman</option>
           <option value="3">Dessert</option>
+          <option value="4">Snack</option>
         </select>
-
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-        />
 
         <button type="submit">Simpan</button>
       </form>

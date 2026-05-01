@@ -32,6 +32,9 @@ importers:
       pg-hstore:
         specifier: ^2.3.4
         version: 2.3.4
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
       sequelize:
         specifier: ^6.37.8
         version: 6.37.8(pg-hstore@2.3.4)(pg@8.20.0)

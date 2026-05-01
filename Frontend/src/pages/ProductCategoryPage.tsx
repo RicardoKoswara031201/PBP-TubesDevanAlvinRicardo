@@ -1,137 +1,134 @@
 import { useEffect, useState } from "react";
-// import { api } from "../api/api"; // aktifkan nanti kalau pakai backend
 import { useNavigate } from "react-router-dom";
+import { api } from "../api/api";
+import type { Category, Product } from "../types";
 import "../style/ProductCategoryPage.css";
 
 export default function ProductCategoryPage() {
   const navigate = useNavigate();
 
-  const [categories, setCategories] = useState<any[]>([]);
-  const [products, setProducts] = useState<any[]>([]);
-  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
-  // ================= BACKEND (SIAP DIPAKAI) =================
-  /*
+  // FETCH CATEGORIES
   const fetchCategories = async () => {
-    const data = await api.get("/categories");
-    setCategories(data);
+    try {
+      const data = await api.get<Category[]>("/categories");
+      setCategories(data);
+    } catch (error) {
+      console.error("Error fetch categories:", error);
+    }
   };
 
-  const fetchProducts = async (categoryId?: number) => {
-    let url = "/products";
-    if (categoryId) url += `?categoryId=${categoryId}`;
-
-    const data = await api.get(url);
-    setProducts(data);
+  // FETCH PRODUCTS
+  const fetchProducts = async () => {
+    try {
+      const data = await api.get<Product[]>("/products");
+      setProducts(data);
+      setAllProducts(data);
+    } catch (error) {
+      console.error("Error fetch products:", error);
+    }
   };
 
   useEffect(() => {
     fetchCategories();
     fetchProducts();
   }, []);
-  */
 
-  // ================= DUMMY =================
-  useEffect(() => {
-    const dummyCategories = [
-      { id: 1, name: "Makanan" },
-      { id: 2, name: "Minuman" },
-      { id: 3, name: "Dessert" },
-    ];
-
-    const dummyProducts = [
-      { id: 1, name: "Nasi Goreng", price: 20000, categoryId: 1 },
-      { id: 2, name: "Ayam Bakar", price: 25000, categoryId: 1 },
-      { id: 3, name: "Es Teh", price: 5000, categoryId: 2 },
-      { id: 4, name: "Jus Alpukat", price: 15000, categoryId: 2 },
-      { id: 5, name: "Ice Cream", price: 12000, categoryId: 3 },
-    ];
-
-    setCategories(dummyCategories);
-    setAllProducts(dummyProducts);
-    setProducts(dummyProducts);
-  }, []);
-
-  // ================= FILTER =================
+  // FILTER CATEGORY
   const handleCategoryClick = (id: number) => {
     setSelectedCategory(id);
 
-    const filtered = allProducts.filter(
-      (p) => p.categoryId === id
+    const filteredProducts = allProducts.filter(
+      (product) => product.categoryId === id
     );
 
-    setProducts(filtered);
+    setProducts(filteredProducts);
   };
 
-  // ================= DELETE =================
-  const handleDelete = (id: number) => {
+  // SHOW ALL PRODUCTS
+  const showAllProducts = () => {
+    setSelectedCategory(null);
+    setProducts(allProducts);
+  };
+
+  // DELETE PRODUCT
+  const handleDelete = async (id: number) => {
     const confirmDelete = confirm("Yakin hapus produk?");
     if (!confirmDelete) return;
 
-    const updated = allProducts.filter((p) => p.id !== id);
-    setAllProducts(updated);
-    setProducts(updated);
+    try {
+      await api.delete(`/products/${id}`);
+      await fetchProducts();
+
+      alert("Produk berhasil dihapus");
+    } catch (error) {
+      console.error(error);
+      alert("Gagal hapus produk");
+    }
   };
 
   return (
     <div className="pc-container">
-
       {/* SIDEBAR */}
       <div className="pc-sidebar">
         <h3>Kategori</h3>
 
         <button
           className={!selectedCategory ? "active" : ""}
-          onClick={() => {
-            setSelectedCategory(null);
-            setProducts(allProducts);
-          }}
+          onClick={showAllProducts}
         >
           Semua
         </button>
 
-        {categories.map((cat) => (
+        {categories.map((category) => (
           <button
-            key={cat.id}
-            className={selectedCategory === cat.id ? "active" : ""}
-            onClick={() => handleCategoryClick(cat.id)}
+            key={category.id}
+            className={selectedCategory === category.id ? "active" : ""}
+            onClick={() => handleCategoryClick(category.id)}
           >
-            {cat.name}
+            {category.name}
           </button>
         ))}
       </div>
 
       {/* CONTENT */}
       <div className="pc-content">
-
         {/* HEADER */}
         <div className="pc-header">
           <h2>Produk</h2>
+
           <button onClick={() => navigate("/add-product")}>
             + Tambah Produk
           </button>
         </div>
 
-        {/* GRID */}
+        {/* PRODUCT GRID */}
         <div className="pc-grid">
-          {products.map((p) => (
-            <div key={p.id} className="pc-card">
-              <h4>{p.name}</h4>
-              <p>Rp {p.price}</p>
+          {products.map((product) => (
+            <div key={product.id} className="pc-card">
+              <h4>{product.name}</h4>
+              <p>Rp {product.price}</p>
 
               <div className="pc-actions">
-                <button onClick={() => navigate(`/edit-product/${p.id}`)}>
+                <button
+                  onClick={() =>
+                    navigate(`/edit-product/${product.id}`)
+                  }
+                >
                   Edit
                 </button>
-                <button onClick={() => handleDelete(p.id)}>
+
+                <button onClick={() => handleDelete(product.id)}>
                   Delete
                 </button>
               </div>
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );

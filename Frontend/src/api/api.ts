@@ -9,7 +9,7 @@ async function request<T = any>(
     ...(options.headers || {}) as Record<string, string>
   };
 
-  // Tambahkan token jika perlu
+  // Tambahkan token
   if (useAuth) {
     const token = localStorage.getItem('token');
     if (token) {
