@@ -10,7 +10,13 @@ import {
   updateProduct,
 } from "../controllers/product.controller";
 
-import { createOrder } from "../controllers/order.controller";
+import {
+  createOrder,
+  getOrders,
+} from "../controllers/order.controller";
+
+import { getUsers } from "../controllers/user.controller";
+
 import { upload } from "../middleware/upload";
 
 const router = express.Router();
@@ -20,17 +26,15 @@ router.get("/categories", getCategories);
 
 // PRODUCT
 router.get("/products", getProducts);
-
-// CREATE PRODUCT
 router.post("/products", upload.single("image"), createProduct);
-
-// UPDATE PRODUCT
 router.put("/products/:id", updateProduct);
-
-// DELETE PRODUCT
 router.delete("/products/:id", deleteProduct);
 
 // ORDER
+router.get("/orders", getOrders);
 router.post("/orders", createOrder);
+
+// USER
+router.get("/users", getUsers);
 
 export default router;

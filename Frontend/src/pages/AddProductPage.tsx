@@ -13,7 +13,7 @@ export default function AddProductPage() {
     image: null as File | null,
   });
 
-  // HANDLE INPUT (SAFE VERSION)
+  // HANDLE INPUT
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {

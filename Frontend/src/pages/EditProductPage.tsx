@@ -16,7 +16,7 @@ export default function EditProductPage() {
       try {
         const data = await api.get<any>(`/products`);
 
-        // cari product dari list (karena kamu belum punya GET /products/:id)
+        // cari product dari list
         const product = data.find((p: any) => p.id === Number(id));
 
         if (!product) {

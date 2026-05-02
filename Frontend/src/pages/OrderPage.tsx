@@ -1,42 +1,25 @@
 import { useEffect, useState } from "react";
-// import { api } from "../api/api";
+import { api } from "../api/api";
 import "../style/OrderPage.css";
-
-const USE_BACKEND = false;
 
 export default function OrderPage() {
   const [orders, setOrders] = useState<any[]>([]);
 
   useEffect(() => {
-    if (USE_BACKEND) {
-      // ================= BACKEND =================
-      const fetchOrders = async () => {
-        try {
-          const data = await api.get("/orders");
-          setOrders(data);
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      fetchOrders();
-    } else {
-      // ================= DUMMY =================
-      const dummyOrders = [
-        { id: 1, customer: "Budi", total: 45000, status: "pending" },
-        { id: 2, customer: "Ani", total: 30000, status: "done" },
-        { id: 3, customer: "Joko", total: 25000, status: "pending" },
-      ];
+    const fetchOrders = async () => {
+      try {
+        const data = await api.get<any[]>("/orders");
 
-      setOrders(dummyOrders);
-    }
+        console.log("ORDERS:", data);
+
+        setOrders(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Failed fetch orders:", err);
+      }
+    };
+
+    fetchOrders();
   }, []);
-
-  const updateStatus = (id: number) => {
-    const updated = orders.map((o) =>
-      o.id === id ? { ...o, status: "done" } : o
-    );
-    setOrders(updated);
-  };
 
   return (
     <div className="order-container">
@@ -46,10 +29,7 @@ export default function OrderPage() {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Customer</th>
             <th>Total</th>
-            <th>Status</th>
-            <th>Aksi</th>
           </tr>
         </thead>
 
@@ -57,15 +37,9 @@ export default function OrderPage() {
           {orders.map((o) => (
             <tr key={o.id}>
               <td>{o.id}</td>
-              <td>{o.customer}</td>
-              <td>Rp {o.total}</td>
-              <td>{o.status}</td>
+
               <td>
-                {o.status === "pending" && (
-                  <button onClick={() => updateStatus(o.id)}>
-                    Selesaikan
-                  </button>
-                )}
+                Rp {o.total ?? o.total_price ?? 0}
               </td>
             </tr>
           ))}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import { api } from "../api/api";
+import { api } from "../api/api";
 import "../style/UserPage.css";
 
 const USE_BACKEND = false;
@@ -9,7 +9,7 @@ export default function UserPage() {
 
   useEffect(() => {
     if (USE_BACKEND) {
-      // ================= BACKEND =================
+      // BACKEND
       const fetchUsers = async () => {
         try {
           const data = await api.get("/users");
@@ -20,7 +20,7 @@ export default function UserPage() {
       };
       fetchUsers();
     } else {
-      // ================= DUMMY =================
+      // DUMMY
       const dummyUsers = [
         { id: 1, name: "Admin 1", role: "admin" },
         { id: 2, name: "Kasir 1", role: "kasir" },
