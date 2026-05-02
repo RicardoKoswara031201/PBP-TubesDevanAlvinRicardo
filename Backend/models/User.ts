@@ -1,7 +1,7 @@
 import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement } from "sequelize-typescript";
 
 @Table({
-  tableName: "users" // 🔥 INI PENTING
+  tableName: "users"
 })
 export default class User extends Model {
 
